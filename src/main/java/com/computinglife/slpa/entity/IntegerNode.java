@@ -7,8 +7,8 @@ import java.util.Set;
 import com.computinglife.slpa.util.RandomNumGenerator;
 
 public class IntegerNode {
-	int id;
-	int community;
+	public int id;
+	public int community;
 	HashMap<Integer, Integer> communityDistribution;
 
 	public IntegerNode(int id, int community) {
