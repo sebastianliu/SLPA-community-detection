@@ -10,11 +10,16 @@ import java.io.InputStreamReader;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
+/**
+ * 读图工具类
+ * 
+ * @author youngliu
+ *
+ */
 public class GraphReader {
 
 	/*
-	 * Expects a edge list file. First line contains total number of vertices
-	 * and edges in the graph.
+	 * 这里假定图数据文件每行为一个有向边，(source --> target) 第一行为整个图中点和边的总数（第一个为点总数，第二个为边总数）
 	 * 
 	 */
 	public static SimpleDirectedWeightedGraph<Integer, DefaultWeightedEdge> readGraph(File f)
@@ -30,6 +35,7 @@ public class GraphReader {
 			for (int i = 0; i < nodes; i++)
 				graph.addVertex(new Integer(i));
 
+			// init edges
 			for (int i = 1; i <= edges; i++) {
 				String[] vertices = br.readLine().split("\t");
 				Integer sourceV = Integer.parseInt(vertices[0]);
@@ -42,17 +48,15 @@ public class GraphReader {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		// init over
 		return graph;
 	}
 
+	// just for test
 	public static void main(String arg[]) {
 
 		try {
 			File f = new File(arg[0]);
-			// BufferedReader br = new BufferedReader(new InputStreamReader(new
-			// FileInputStream(f)));
-
 			System.out.println(f.getAbsolutePath());
 			readGraph(f);
 

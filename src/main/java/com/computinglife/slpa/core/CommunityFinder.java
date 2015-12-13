@@ -25,10 +25,12 @@ public class CommunityFinder {
 
 		Set<DefaultWeightedEdge> incomingEdges = inGraph.graph.incomingEdgesOf(currentNode.id);
 
+		// 存放邻居节点发过来的label
 		HashMap<Integer, Integer> incomingVotes = new HashMap<Integer, Integer>();
 
-		// For each vertex V with an incoming edge to the current node
+		// 当前节点的每一条入边
 		for (DefaultWeightedEdge edge : incomingEdges) {
+			// speaker
 			int speakerId = inGraph.graph.getEdgeSource(edge);
 			IntegerNode speakerNode = inGraph.nodeMap.get(speakerId);
 
@@ -41,7 +43,7 @@ public class CommunityFinder {
 
 		}
 
-		// Find the most popular vote
+		// listener rules（找出发过来出现次数最多的lable）
 		Iterator<Entry<Integer, Integer>> it = incomingVotes.entrySet().iterator();
 		int popularCommunity = -1;
 		int popularCommunityCount = 0;
@@ -53,11 +55,12 @@ public class CommunityFinder {
 			}
 		}
 
-		// Update community distribution of the current node by 1
+		// 给该点的,选定label出现次数增加一
 		currentNode.updateCommunityDistribution(popularCommunity, 1);
 
 	}
 
+	// 迭代次数一般可以指定为100
 	public void SLPA(int iterations) {
 
 		for (int i = 0; i < iterations; i++) {

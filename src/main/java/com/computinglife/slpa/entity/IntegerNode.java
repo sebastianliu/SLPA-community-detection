@@ -8,13 +8,15 @@ import com.computinglife.slpa.util.RandomNumGenerator;
 
 public class IntegerNode {
 	public int id;
+
 	public int community;
-	HashMap<Integer, Integer> communityDistribution;
+	// 存放该点所属的标签s，key为标签id,value为该标签在改点上所出现的次数
+	public HashMap<Integer, Integer> communityDistribution;
 
 	public IntegerNode(int id, int community) {
 		this.id = id;
 		this.community = community;
-		communityDistribution = new HashMap<Integer, Integer>();
+		this.communityDistribution = new HashMap<Integer, Integer>();
 	}
 
 	public void updateCommunityDistribution(int votedCommunity, int voteIncrement) {
@@ -26,12 +28,10 @@ public class IntegerNode {
 
 	}
 
-	// Vote for a community randomly based on the distribution of communities at
-	// this node
+	// speak rule，随机从标签s中选择一个
+	// FIXME:这种随机方式是否能有所改进?
 	public int speakerVote() {
 
-		// Run through each element in the map to create a cumulative
-		// distribution
 		Set<Integer> communityIds = communityDistribution.keySet();
 		ArrayList<Integer> communities = new ArrayList<Integer>();
 		ArrayList<Integer> cumulativeCounts = new ArrayList<Integer>();
@@ -43,16 +43,13 @@ public class IntegerNode {
 			cumulativeCounts.add(sum);
 		}
 
-		// Generate a random integer in the range [0,sum)
 		int rand = RandomNumGenerator.getRandomInt(sum + 1);
 
-		// Find the index of first value greater than rand in cumulativeCounts
 		int i = 0;
 		for (i = 0; i < cumulativeCounts.size(); i++)
 			if (cumulativeCounts.get(i) >= rand)
 				break;
 
-		// Return the corresponding community
 		return communities.get(i);
 	}
 
